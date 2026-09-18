@@ -50,7 +50,7 @@
 
 - `QA Project.postman_collection.json` — коллекция Postman с запросами и автоматизированными тестами
 - `QA Project.postman_environment.json` — окружение Postman
-- `bug/` — баг-репорт
+- `bugs/` — баг-репорт
 - `screenshots/` — скриншоты результатов тестирования
 
 ## Окружение
