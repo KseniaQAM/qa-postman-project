@@ -1,0 +1,343 @@
+{
+  "info": {
+    "_postman_id": "8e8cc0cb-fb50-4408-838e-8a19ca4a8e7e",
+    "name": "QA Project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58243388",
+    "_collection_link": "https://go.postman.co/collection/58243388-8e8cc0cb-fb50-4408-838e-8a19ca4a8e7e?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "01-create User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const response = pm.response.json ();\r\npm.environment.set(\"userId\", response.id);\r\npm.environment.set(\"createdName\", response.name);\r\npm.environment.set(\"createdEmail\", response.email);\r\npm.environment.set(\"roleUser\", response.role);\r\npm.test(\"status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\npm.test(\"id exists\", function () {\r\n    pm.expect(response).to.have.property(\"id\");\r\n});\r\npm.test(\"id is number\", function () {\r\n    pm.expect(response.id).to.be.a(\"number\");\r\n});\r\npm.test(\"name exists\", function () {\r\n    pm.expect(response).to.have.property(\"name\");\r\n});\r\npm.test(\"name is string\", function () {\r\n    pm.expect(response.name).to.be.a(\"string\");\r\n});\r\npm.test(\"email exists\", function () {\r\n    pm.expect(response).to.have.property(\"email\");\r\n});\r\npm.test(\"email is string\", function () {\r\n    pm.expect(response.email).to.be.a(\"string\");\r\n});\r\npm.test(\"role exists\", function () {\r\n    pm.expect(response).to.have.property(\"role\");\r\n});\r\npm.test(\"role is string\", function () {\r\n    pm.expect(response.role).to.be.a(\"string\");\r\n});\r\npm.test(\"role is user\", function () {\r\n    pm.expect(response.role).to.eql(\"user\");\r\n});\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"name\": \"Nika\",\r\n\"email\": \"{{$randomEmail}}\",\r\n\"password\": \"nikanika1\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/users",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "201 Created - Successful user creation",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\"name\": \"Nika\",\r\n\"email\": \"{{$randomEmail}}\",\r\n\"password\": \"nikanika1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/users",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "date",
+              "value": "Fri, 18 Sep 2026 13:28:21 GMT"
+            },
+            {
+              "key": "server",
+              "value": "uvicorn"
+            },
+            {
+              "key": "content-length",
+              "value": "76"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"id\": 7,\n  \"name\": \"Nika\",\n  \"email\": \"Kaylie.Konopelski@hotmail.com\",\n  \"role\": \"user\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "02-get User by Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const response = pm.response.json();\r\npm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\npm.test(\"Id exists\", function () {\r\n    pm.expect(response).to.have.property(\"id\");\r\n});\r\npm.test(\"Id is correct\", function () {\r\n    pm.expect(response.id).to.eql(pm.environment.get(\"userId\"));\r\n});\r\npm.test(\"name exists\", function () {\r\n    pm.expect(response).to.have.property(\"name\");\r\n});\r\npm.test(\"name is correct\", function () {\r\n    pm.expect(response.name).to.eql(pm.environment.get(\"createdName\"));\r\n});\r\npm.test(\"email exists\", function () {\r\n    pm.expect(response).to.have.property(\"email\");\r\n});\r\npm.test(\"email is correct\", function () {\r\n    pm.expect(response.email).to.eql(pm.environment.get(\"createdEmail\"));\r\n});\r\npm.test(\"role exists\", function () {\r\n    pm.expect(response).to.have.property(\"role\");\r\n});\r\npm.test(\"role is correct\", function () {\r\n    pm.expect(response.role).to.eql(pm.environment.get(\"roleUser\"));\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/users/{{userId}}",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK - Get user by ID",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/users/{{userId}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "users",
+                "{{userId}}"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "date",
+              "value": "Fri, 18 Sep 2026 13:32:39 GMT"
+            },
+            {
+              "key": "server",
+              "value": "uvicorn"
+            },
+            {
+              "key": "content-length",
+              "value": "76"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"id\": 7,\n  \"name\": \"Nika\",\n  \"email\": \"Kaylie.Konopelski@hotmail.com\",\n  \"role\": \"user\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "03-Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const response = pm.response.json();\r\npm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\npm.environment.set(\"accessToken\", response.accessToken);\r\npm.test(\"accessToken exists\", function () {\r\n    pm.expect(response).to.have.property(\"accessToken\");\r\n});\r\npm.test(\"accessToken is string\", function () {\r\n    pm.expect(response.accessToken).to.be.a(\"string\");\r\n});\r\npm.test(\"userId exists\", function () {\r\n    pm.expect(response).to.have.property(\"userId\");\r\n});\r\npm.test(\"userId is correct\", function () {\r\n    pm.expect(response.userId).to.eql(pm.environment.get(\"userId\"));\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\": \"{{createdEmail}}\",\r\n    \"password\": \"nikanika1\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/auth/login",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK - Successful login",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"{{createdEmail}}\",\r\n    \"password\": \"nikanika1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/auth/login",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "date",
+              "value": "Fri, 18 Sep 2026 13:33:08 GMT"
+            },
+            {
+              "key": "server",
+              "value": "uvicorn"
+            },
+            {
+              "key": "content-length",
+              "value": "40"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"accessToken\": \"admin-token\",\n  \"userId\": 7\n}"
+        }
+      ]
+    },
+    {
+      "name": "04-get Profile",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const response = pm.response.json();\r\npm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\npm.test(\"id exists\", function () {\r\n    pm.expect(response).to.have.property(\"id\");\r\n});\r\npm.test(\"id is correct\", function () {\r\n    pm.expect(response.id).to.eql(pm.environment.get(\"userId\"));\r\n});\r\npm.test(\"name exists\", function () {\r\n    pm.expect(response).to.have.property(\"name\");\r\n});\r\npm.test(\"name is correct\", function () {\r\n    pm.expect(response.name).to.eql(pm.environment.get(\"createdName\"));\r\n});\r\npm.test(\"email exists\", function () {\r\n    pm.expect(response).to.have.property(\"email\");\r\n});\r\npm.test(\"email is correct\", function () {\r\n    pm.expect(response.email).to.eql(pm.environment.get(\"createdEmail\"));\r\n});\r\npm.test(\"role exists\", function () {\r\n    pm.expect(response).to.have.property(\"role\");\r\n});\r\npm.test(\"role is correct\", function () {\r\n    pm.expect(response.role).to.eql(pm.environment.get(\"roleUser\"));\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/profile",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "profile"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK - Profile response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/profile",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "profile"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "date",
+              "value": "Fri, 18 Sep 2026 13:33:42 GMT"
+            },
+            {
+              "key": "server",
+              "value": "uvicorn"
+            },
+            {
+              "key": "content-length",
+              "value": "66"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"id\": 2,\n  \"name\": \"Admin\",\n  \"email\": \"admin@example.com\",\n  \"role\": \"admin\"\n}"
+        }
+      ]
+    }
+  ]
+}
